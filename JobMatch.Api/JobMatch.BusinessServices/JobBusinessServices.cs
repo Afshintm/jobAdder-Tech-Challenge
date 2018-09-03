@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JobMatch.Models;
+﻿using JobMatch.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace JobMatch.BusinessServices
@@ -11,12 +8,11 @@ namespace JobMatch.BusinessServices
         
     }
 
-
     public class JobBusinessServices: BaseBusinessServices<Job>, IJobBusinessService
     {
         private IConfiguration _configuration;
 
-        public JobBusinessServices(IHttpClientManager httpClientManager, IConfiguration configuration,ICandidateBusinessServices candidateBusinessServices) : base(httpClientManager, configuration)
+        public JobBusinessServices(IHttpClientManager httpClientManager, IConfiguration configuration) : base(httpClientManager, configuration)
         {
             _configuration = configuration;
         }
