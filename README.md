@@ -18,9 +18,9 @@ Webapi has got 4 projects.
 
 ### Api Endpoints: ###
 
-Get request to get list of candidates: http://localhost:50532/api/candidates
-
-
+Get request to get list of candidates: `http://localhost:50532/api/candidates`
+Get Job with candidate score: `http://localhost:50532/api/jobs`
+Get specific Job Id candidate list `http://localhost:50532/api/jobs/1`
 
 ### The Assumption in Matching candidates ###
 
@@ -31,14 +31,30 @@ So, the multiplier of that skill will be the sum of position of all occurrences.
 
 
 The position of the skill will be the multiplier for scoring algorithm.
-We initially weigh each candidate skill based on their skillTags.
-For instance, candidate with following skillTags will have a following Skill Weigh.
- SkillTags: ”Java, x-code, illustrator, IOS, fast-typing, x-code, c-Sharp”
+
+Algorithm initially weighs each candidate skill based on their skillTags.
+
+There are two strategies for weighing skills. 
+
+Adding repeated skill's multiplier  OR  Ignoring repeated skills.
+These strategies can be passed to business service class 
+ `CandidateJobScoreCalculatorServices<TCandidateSkillStrategy,TJobSkillStrategy>`  
+
+The system is currently using first algorithm.
+
+For instance, with first algorithm   candidate with skillTags will have a following Skill Weigh.
+ `SkillTags:Java, x-code, illustrator, IOS, fast-typing, x-code, c-Sharp`
 Java: 7
-x-code:8  , because x-code appeared twice in the list. We do not ignore the second one. i
-illustrator: 5,   IOS:4,   Fast-typing: 3,     c-sharp: 1
+x-code:8  , because x-code appeared twice in the list.
+illustrator: 5,   
+IOS:4,   
+Fast-typing: 3,     
+c-sharp: 1
 The same Scoring will be done for the job skills.
-Then for each job required skill we find in a candidate we add up that candidate score for that job based on candidate.skillWeigh * job.skillWeigh and we multiply candidate and job skill 
+Then for each job, we score the candidates based on 
+`Job.Skill.Weight * Candidate.Skill.Weight` 
+
+This way, candidates with most relevant skills will get higher marks.
 
 
 
