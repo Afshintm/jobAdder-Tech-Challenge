@@ -7,7 +7,7 @@ namespace JobMatch.BusinessServices.ViewModels
     public class CandidateJobScoreViewModel
     {
         public int CandidateId { get; set; }
-        public string CandidateName { get; set; }
+        public string Name { get; set; }
         public string SkillTags { get; set; }
         public int Score { get; set; }
 

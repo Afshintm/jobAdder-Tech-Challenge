@@ -28,7 +28,7 @@ namespace JobMatch.BusinessServices.ViewModels
             return new CandidateJobScoreViewModel
             {
                 CandidateId = candidateJobScore.Candidate.CandidateId,
-                CandidateName = candidateJobScore.Candidate.Name,
+                Name = candidateJobScore.Candidate.Name,
                 Score = candidateJobScore.Score,
                 SkillTags = candidateJobScore.Candidate.SkillTags
             };
