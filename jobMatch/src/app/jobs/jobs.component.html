@@ -1,3 +1,26 @@
-<p>
-  jobs works!
-</p>
+<mat-accordion multi="true">
+  <mat-expansion-panel multi="true" *ngFor="let job of jobs">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       <span>{{getJobInfo(job)}}</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        <span>{{getJobBestCandidate(job)}}</span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+  	<mat-list *ngFor="let candidate of job.goodCandidates.slice(0,5)">
+  		<mat-list-item>
+  			<span>{{candidate.candidateName}}</span><span>{{getCandidateInfo(candidate)}}</span>
+  		
+  		</mat-list-item>
+  		<mat-divider></mat-divider>
+  	</mat-list>
+  
+  <mat-action-row>
+    <button mat-button>Click me</button>
+  </mat-action-row>
+
+  </mat-expansion-panel>
+  
+</mat-accordion>

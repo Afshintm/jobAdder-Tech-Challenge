@@ -1,0 +1,16 @@
+@import '../../styles-variables';
+@import '../../styles.scss';
+app-jobs {
+  nav {
+    width: 100%;
+  }
+  
+  @media (min-width: map-get($grid-breakpoints, sm)) {
+    nav {
+      width: 80%;
+    }
+  }
+}
+.mat-expanded{
+	 
+}
