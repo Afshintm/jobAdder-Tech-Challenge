@@ -2,7 +2,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using JobMatch.BusinessServices;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,6 +35,12 @@ namespace JobMatch.Api.Infrastructure
             builder.RegisterGeneric(typeof(BaseBusinessServices<>)).As(typeof(IBaseBusinessService<>)).InstancePerLifetimeScope();
             builder.RegisterType<CandidateBusinessServices>().As<ICandidateBusinessServices>().InstancePerLifetimeScope();
             builder.RegisterType<JobBusinessServices>().As<IJobBusinessService>().InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(CandidateJobScoreCalculatorServices<>)).As(typeof(ICandidateJobScoreCalculatorServices<>)).InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(CandidateSearchServices<>)).As(typeof(ICandidateSearchServices<>)).InstancePerLifetimeScope();
+            builder.RegisterType<CandidateSearchCountDuplicateSkill>().AsSelf();
+
             return builder;
         }
 
