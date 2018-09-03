@@ -35,6 +35,6 @@ jobs: Job[];
   }
 
   getJobBestCandidate(input:Job): string{
-    return `${input.goodCandidates[0].candidateName}` ;
+    return `${input.goodCandidates[0].name}` ;
   }
 }

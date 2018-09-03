@@ -1,6 +1,6 @@
 
 @import '../styles-variables';
-
+@import '../styles.scss';
 app-root  {
   nav {
     width: 100%;
@@ -11,4 +11,8 @@ app-root  {
       width: 80%;
     }
   }
+}
+
+a.mat-list-item-focus{
+	background-color: mat-color($primary);
 }
