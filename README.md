@@ -65,9 +65,16 @@ A simple angularJs 6 project to show the result of the Matching 5 top candidates
 ### Important ###
 
 WebApi should be running for the following website to work.
-Please run under node version 9.4.0
-This app uses ng-cli 6
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+Please run under node version 9.4.0+
+
+After clonning the repository 
+
+change directory to jobMatch and
+
+`npm install`
+
+Run `ng serve` or `ng serve --open` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 
 
