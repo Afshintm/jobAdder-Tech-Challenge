@@ -14,8 +14,8 @@ namespace JobMatch.UnitTests
     public class BusinessServiceTestsBase
     {
 
-        public IJobBusinessService JobBusinessService { get; set; }
-        public ICandidateBusinessServices CandidateBusinessServices { get; set; }
+        public IJobBusinessService<AddValueForRepeatedSkills> JobBusinessService { get; set; }
+        public ICandidateBusinessServices<AddValueForRepeatedSkills> CandidateBusinessServices { get; set; }
 
         public Mock<IHttpClientManager> HttpClientManagerMock { get; set; }
         public Mock<IConfiguration> ConfigurationMock { get; set; }
@@ -35,8 +35,8 @@ namespace JobMatch.UnitTests
             HttpClientManagerMock.Setup(x => x.GetAsync<IEnumerable<Job>>(It.IsAny<string>())).Returns(() => Task.FromResult(FakeJobs.AsEnumerable()));
             HttpClientManagerMock.Setup(x => x.GetAsync<IEnumerable<Candidate>>(It.IsAny<string>())).Returns(() => Task.FromResult(FakeCandidates.AsEnumerable()));
 
-            CandidateBusinessServices = new CandidateBusinessServices(HttpClientManagerMock.Object, ConfigurationMock.Object);
-            JobBusinessService = new JobBusinessServices(HttpClientManagerMock.Object, ConfigurationMock.Object);
+            CandidateBusinessServices = new CandidateBusinessServices<AddValueForRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
+            JobBusinessService = new JobBusinessServices<AddValueForRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
         }
 
         public void InitFakes()

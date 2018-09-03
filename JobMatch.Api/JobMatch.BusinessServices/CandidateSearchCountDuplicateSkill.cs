@@ -3,10 +3,10 @@ using JobMatch.Models;
 
 namespace JobMatch.BusinessServices
 {
-    public class CandidateSearchCountDuplicateSkill :  CandidateSearchServices<AddValueForRepeatedSkills>
+    public class CandidateSearchCountDuplicateSkill : CandidateSearchServices<AddValueForRepeatedSkills,AddValueForRepeatedSkills>
     {
-        public CandidateSearchCountDuplicateSkill(IJobBusinessService jobBusinessServices, ICandidateBusinessServices candidateBusinessServices, ISkillWeightStrategy skillWeightStrategy)
-            : base(jobBusinessServices, candidateBusinessServices, skillWeightStrategy)
+        public CandidateSearchCountDuplicateSkill(IJobBusinessService<AddValueForRepeatedSkills> jobBusinessServices, ICandidateBusinessServices<AddValueForRepeatedSkills> candidateBusinessServices)
+            : base(candidateBusinessServices, jobBusinessServices)
         {
         }
     }

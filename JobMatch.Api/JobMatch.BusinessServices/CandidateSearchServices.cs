@@ -14,15 +14,22 @@ namespace JobMatch.BusinessServices
         JobCandidate PickCandidateForJob(Job job, IEnumerable<CandidateSkillWeight> allCandidates);
     }
 
-    public interface ICandidateSearchServices<T> : ICandidateJobScoreCalculatorServices<ISkillWeightStrategy>, ICandidateSearchServices where T : ISkillWeightStrategy
+
+
+    public interface ICandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy> : ICandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy>, ICandidateSearchServices
+        where TCandidateSkillStrategy : ISkillWeightStrategy
+        where TJobSkillStrategy : ISkillWeightStrategy
     {
+
     }
 
+    public class CandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy>: CandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy> , ICandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy>
+        where TCandidateSkillStrategy : ISkillWeightStrategy
+        where TJobSkillStrategy : ISkillWeightStrategy
 
-    public class CandidateSearchServices<T> : CandidateJobScoreCalculatorServices<T>, ICandidateSearchServices<T> where T : ISkillWeightStrategy, new()
     {
-        public CandidateSearchServices(IJobBusinessService jobBusinessServices, ICandidateBusinessServices candidateBusinessServices, ISkillWeightStrategy skillWeightStrategy)
-            : base(jobBusinessServices, candidateBusinessServices, skillWeightStrategy)
+        public CandidateSearchServices(ICandidateBusinessServices<TCandidateSkillStrategy> candidateBusinessServices,
+            IJobBusinessService<TJobSkillStrategy> jobBusinessServices) :base(candidateBusinessServices, jobBusinessServices)
         {
         }
 
@@ -62,6 +69,7 @@ namespace JobMatch.BusinessServices
             });
             return jvm;
         }
+
     }
 
 }

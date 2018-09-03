@@ -33,12 +33,13 @@ namespace JobMatch.Api.Infrastructure
         {
             builder.RegisterType<HttpClientManager>().As<IHttpClientManager>().SingleInstance();
             builder.RegisterGeneric(typeof(BaseBusinessServices<>)).As(typeof(IBaseBusinessService<>)).InstancePerLifetimeScope();
-            builder.RegisterType<CandidateBusinessServices>().As<ICandidateBusinessServices>().InstancePerLifetimeScope();
-            builder.RegisterType<JobBusinessServices>().As<IJobBusinessService>().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(CandidateBusinessServices<>)).As(typeof(ICandidateBusinessServices<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(JobBusinessServices<>)).As(typeof(IJobBusinessService<>)).InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(CandidateJobScoreCalculatorServices<>)).As(typeof(ICandidateJobScoreCalculatorServices<>)).InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(CandidateSearchServices<>)).As(typeof(ICandidateSearchServices<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(CandidateJobScoreCalculatorServices<,>)).As(typeof(ICandidateJobScoreCalculatorServices<,>)).InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(CandidateSearchServices<,>)).As(typeof(ICandidateSearchServices<,>)).InstancePerLifetimeScope();
             builder.RegisterType<CandidateSearchCountDuplicateSkill>().AsSelf();
 
             return builder;

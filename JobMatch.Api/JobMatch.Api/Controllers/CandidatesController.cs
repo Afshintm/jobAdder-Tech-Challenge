@@ -10,8 +10,8 @@ namespace JobMatch.Api.Controllers
     [ApiController]
     public class CandidatesController : ControllerBase
     {
-        private ICandidateBusinessServices _candidateBusinessServices;
-        public CandidatesController(ICandidateBusinessServices candidateBusinessServices)
+        private ICandidateBusinessServices<AddValueForRepeatedSkills> _candidateBusinessServices;
+        public CandidatesController(ICandidateBusinessServices<AddValueForRepeatedSkills> candidateBusinessServices)
         {
             _candidateBusinessServices = candidateBusinessServices;
         }

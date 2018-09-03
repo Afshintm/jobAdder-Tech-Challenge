@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using JobMatch.Models;
 
 namespace JobMatch.BusinessServices
 {
-    public interface ICandidateJobScoreCalculatorServices<T>
+    public interface ICandidateJobScoreCalculatorServices 
     {
         CandidateJobScore CalculateCandidateScore(Candidate candidate, Job job);
         IEnumerable<CandidateSkillWeight> CandidateSkillWeights { get; set; }
@@ -13,53 +12,32 @@ namespace JobMatch.BusinessServices
 
     }
 
-
-
-    public class CandidateJobScoreCalculatorServices<T> : ICandidateJobScoreCalculatorServices<T> where T : ISkillWeightStrategy, new()
+    public interface
+        ICandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy> : ICandidateJobScoreCalculatorServices 
+        where TCandidateSkillStrategy : ISkillWeightStrategy
+        where TJobSkillStrategy : ISkillWeightStrategy
     {
-        private readonly IJobBusinessService _jobBusinessService;
-        private readonly ICandidateBusinessServices _candidateBusinessServices;
-        private readonly ISkillWeightStrategy _skillsCalculationStrategy;
+
+    }
+
+    public class CandidateJobScoreCalculatorServices<TCandidateSkillStrategy,TJobSkillStrategy> : ICandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy> 
+        where TCandidateSkillStrategy : ISkillWeightStrategy
+        where TJobSkillStrategy : ISkillWeightStrategy
+    {
+        private readonly IJobBusinessService<TJobSkillStrategy> _jobBusinessService;
+        private readonly ICandidateBusinessServices<TCandidateSkillStrategy> _candidateBusinessServices;
 
 
         public IEnumerable<CandidateSkillWeight> CandidateSkillWeights { get; set; }
         public IEnumerable<JobSkillWeight> JobSkillWeights { get; set; }
 
-        public CandidateJobScoreCalculatorServices(
-            IJobBusinessService jobBusinessServices,
-            ICandidateBusinessServices candidateBusinessServices, ISkillWeightStrategy skillWeightStrategy)
+        public CandidateJobScoreCalculatorServices(ICandidateBusinessServices<TCandidateSkillStrategy> candidateBusinessServices,
+            IJobBusinessService<TJobSkillStrategy> jobBusinessServices)
         {
             _jobBusinessService = jobBusinessServices;
             _candidateBusinessServices = candidateBusinessServices;
-            _skillsCalculationStrategy = skillWeightStrategy;
-            WeightCandidateSkills();
-        }
-
-
-        public void WeightCandidateSkills()
-        {
-            var candidates = Task.Run(async () =>
-            {
-                var cans = await _candidateBusinessServices.GetAllAsync();
-                return cans.Select(item => new CandidateSkillWeight
-                {
-                    Candidate = item,
-                    SkillWeights = _skillsCalculationStrategy.CalculateSkillWeights(item.SkillTags)
-                });
-            });
-            var jobs = Task.Run(async () =>
-            {
-                var j = await _jobBusinessService.GetAllAsync();
-                return j.Select(item => new JobSkillWeight
-                {
-                    Job = item,
-                    SkillWeights = _skillsCalculationStrategy.CalculateSkillWeights(item.Skills)
-                });
-            });
-
-            Task.WaitAll(candidates, jobs);
-            CandidateSkillWeights = candidates.Result;
-            JobSkillWeights = jobs.Result;
+            CandidateSkillWeights = _candidateBusinessServices.GetCandidateSkillWeights();
+            JobSkillWeights = _jobBusinessService.GetJobSkillWeights();
         }
 
         public CandidateJobScore CalculateCandidateScore(Candidate candidate, Job job)

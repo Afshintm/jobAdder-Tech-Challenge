@@ -24,16 +24,18 @@ namespace JobMatch.UnitTests
         [Test]
         public void CandidateSearchService_Should_Count_Duplicate_Skills()
         {
-            var candidateSearchService = new CandidateSearchServices<AddValueForRepeatedSkills>(JobBusinessService,
-                CandidateBusinessServices, new AddValueForRepeatedSkills());
+            var candidateSearchService = new CandidateSearchServices<AddValueForRepeatedSkills, AddValueForRepeatedSkills>(CandidateBusinessServices, JobBusinessService);
             var candidateSkillWeights = candidateSearchService.CandidateSkillWeights.ToList();
             Assert.NotNull(candidateSkillWeights);
         }
         [Test]
         public void CandidateSearchService_Should_Ignore_Duplicate_Skills()
         {
-            var candidateSearchService = new CandidateSearchServices<IgnoreRepeatedSkills>(JobBusinessService,
-                CandidateBusinessServices, new IgnoreRepeatedSkills());
+            var jobBusinessService =
+                new JobBusinessServices<IgnoreRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
+            var candidateBusinessService = new CandidateBusinessServices<IgnoreRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
+            var candidateSearchService = new CandidateSearchServices<IgnoreRepeatedSkills, IgnoreRepeatedSkills>(
+                candidateBusinessService, jobBusinessService);
             var candidateSkillWeights = candidateSearchService.CandidateSkillWeights.ToList();
             Assert.NotNull(candidateSkillWeights);
         }
