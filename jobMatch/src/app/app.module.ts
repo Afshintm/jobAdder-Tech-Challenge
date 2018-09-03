@@ -20,3 +20,4 @@ import { CandidatesComponent } from './candidates/candidates.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
