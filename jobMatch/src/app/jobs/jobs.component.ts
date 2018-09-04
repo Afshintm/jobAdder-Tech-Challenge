@@ -27,7 +27,7 @@ jobs: Job[];
 
   getCandidateInfo(input:Candidate): string{
 
-    return `${input.name} Score: ${input.score} Skill Tags:${input.skillTags}`; 
+    return `${input.name}&nbsp;&nbsp;&nbsp;Score: ${input.score}   Skill Tags:${input.skillTags}`; 
   }
 
   getJobInfo(input:Job): string{
@@ -35,6 +35,6 @@ jobs: Job[];
   }
 
   getJobBestCandidate(input:Job): string{
-    return `${input.goodCandidates[0].name}` ;
+    return `Best candidate: ${input.goodCandidates[0].name}` ;
   }
 }

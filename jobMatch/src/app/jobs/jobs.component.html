@@ -11,8 +11,7 @@
 
   	<mat-list *ngFor="let candidate of job.goodCandidates.slice(0,5)">
   		<mat-list-item>
-  			{{candidate.name}}{{getCandidateInfo(candidate)}}
-  		
+  			{{candidate.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skills:&nbsp;{{candidate.skillTags}}
   		</mat-list-item>
   		<mat-divider></mat-divider>
   	</mat-list>
