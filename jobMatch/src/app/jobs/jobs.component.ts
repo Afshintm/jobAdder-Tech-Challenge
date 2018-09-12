@@ -13,6 +13,7 @@ export class JobsComponent implements OnInit {
 
 jobs: Job[];
   title: string;
+  viewSpinner: boolean;
 
   constructor(private jobService: JobService) { }
 
@@ -20,6 +21,10 @@ jobs: Job[];
     this.getJobs();
     this.title = 'Job List';
   }
+  ngAfterViewInit(){
+    this.viewSpinner = true
+  }
+
 
   getJobs(): void {
     this.jobService.getJobs().subscribe(jobs => this.jobs = jobs) ;

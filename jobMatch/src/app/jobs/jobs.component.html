@@ -1,3 +1,10 @@
+<div class="app-loading" *ng>
+        <div class="logo"></div>
+        <svg class="spinner" viewBox="25 25 50 50">
+          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+        </svg>
+</div>
+
 <mat-accordion multi="true">
   <mat-expansion-panel multi="true" *ngFor="let job of jobs">
     <mat-expansion-panel-header>
@@ -8,14 +15,12 @@
         {{getJobBestCandidate(job)}}
       </mat-panel-description>
     </mat-expansion-panel-header>
-
-  	<mat-list *ngFor="let candidate of job.goodCandidates.slice(0,5)">
-  		<mat-list-item>
-  			{{candidate.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skills:&nbsp;{{candidate.skillTags}}
-  		</mat-list-item>
-  		<mat-divider></mat-divider>
-  	</mat-list>
-  
+    <mat-list *ngFor="let candidate of job.goodCandidates.slice(0,5)">
+      <mat-list-item>
+        {{candidate.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skills:&nbsp;{{candidate.skillTags}}
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    
   </mat-expansion-panel>
-  
 </mat-accordion>
