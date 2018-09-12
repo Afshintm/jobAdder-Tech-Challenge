@@ -31,7 +31,8 @@ namespace JobMatch.BusinessServices
         public IEnumerable<CandidateSkillWeight> CandidateSkillWeights { get; set; }
         public IEnumerable<JobSkillWeight> JobSkillWeights { get; set; }
 
-        public CandidateJobScoreCalculatorServices(ICandidateBusinessServices<TCandidateSkillStrategy> candidateBusinessServices,
+        public CandidateJobScoreCalculatorServices(
+            ICandidateBusinessServices<TCandidateSkillStrategy> candidateBusinessServices,
             IJobBusinessService<TJobSkillStrategy> jobBusinessServices)
         {
             _jobBusinessService = jobBusinessServices;

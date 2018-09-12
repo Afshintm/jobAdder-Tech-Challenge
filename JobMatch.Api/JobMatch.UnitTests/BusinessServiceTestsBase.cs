@@ -17,6 +17,8 @@ namespace JobMatch.UnitTests
         public IJobBusinessService<AddValueForRepeatedSkills> JobBusinessService { get; set; }
         public ICandidateBusinessServices<AddValueForRepeatedSkills> CandidateBusinessServices { get; set; }
 
+        public ICandidateJobScoreCalculatorServices<AddValueForRepeatedSkills, AddValueForRepeatedSkills> CandidateJobScoreCalculatorServicesCountDuplicate { get; set; }
+
         public Mock<IHttpClientManager> HttpClientManagerMock { get; set; }
         public Mock<IConfiguration> ConfigurationMock { get; set; }
         public const string FakeApiEndpoint = "FakeApiEndpoin";
@@ -37,6 +39,8 @@ namespace JobMatch.UnitTests
 
             CandidateBusinessServices = new CandidateBusinessServices<AddValueForRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
             JobBusinessService = new JobBusinessServices<AddValueForRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
+
+            CandidateJobScoreCalculatorServicesCountDuplicate = new CandidateJobScoreCalculatorServices<AddValueForRepeatedSkills, AddValueForRepeatedSkills>(CandidateBusinessServices,JobBusinessService);
         }
 
         public void InitFakes()

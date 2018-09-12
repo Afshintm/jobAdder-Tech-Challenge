@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JobMatch.Models;
 
 namespace JobMatch.BusinessServices
@@ -16,31 +14,35 @@ namespace JobMatch.BusinessServices
 
 
 
-    public interface ICandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy> : ICandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy>, ICandidateSearchServices
+    public interface ICandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy> :  ICandidateSearchServices
         where TCandidateSkillStrategy : ISkillWeightStrategy
         where TJobSkillStrategy : ISkillWeightStrategy
     {
 
     }
 
-    public class CandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy>: CandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy> , ICandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy>
+    public class CandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy>: ICandidateSearchServices<TCandidateSkillStrategy, TJobSkillStrategy>
         where TCandidateSkillStrategy : ISkillWeightStrategy
         where TJobSkillStrategy : ISkillWeightStrategy
 
     {
+        private readonly ICandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy> _candidateJobScoreCalculatorServices;
         public CandidateSearchServices(ICandidateBusinessServices<TCandidateSkillStrategy> candidateBusinessServices,
-            IJobBusinessService<TJobSkillStrategy> jobBusinessServices) :base(candidateBusinessServices, jobBusinessServices)
+            IJobBusinessService<TJobSkillStrategy> jobBusinessServices, 
+            ICandidateJobScoreCalculatorServices<TCandidateSkillStrategy, TJobSkillStrategy> candidateJobScoreCalculatorServices) 
         {
+            _candidateJobScoreCalculatorServices = candidateJobScoreCalculatorServices;
+
         }
 
         public IEnumerable<JobCandidate> ListCandidatesForAllJobs()
         {
-            return JobSkillWeights.Select(item => PickCandidateForJob(item.Job, CandidateSkillWeights));
+            return _candidateJobScoreCalculatorServices.JobSkillWeights.Select(item => PickCandidateForJob(item.Job, _candidateJobScoreCalculatorServices.CandidateSkillWeights));
         }
         public JobCandidate GetCandidatesForJob(int jobId)
         {
-            var allCandidates = CandidateSkillWeights;
-            var job = JobSkillWeights.FirstOrDefault(x => x.Job.JobId == jobId);
+            var allCandidates = _candidateJobScoreCalculatorServices.CandidateSkillWeights;
+            var job = _candidateJobScoreCalculatorServices.JobSkillWeights.FirstOrDefault(x => x.Job.JobId == jobId);
             if (job == null) return null;
             var jvm = PickCandidateForJob(job.Job, allCandidates);
 
@@ -56,7 +58,7 @@ namespace JobMatch.BusinessServices
             };
             foreach (var candidate in allCandidates)
             {
-                var candidatejobScore = CalculateCandidateScore(candidate.Candidate, job);
+                var candidatejobScore = _candidateJobScoreCalculatorServices.CalculateCandidateScore(candidate.Candidate, job);
                 if (candidatejobScore.Score > 0)
                     jvm.GoodCandidates.Add(candidatejobScore);
             }

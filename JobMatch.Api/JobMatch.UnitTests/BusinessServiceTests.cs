@@ -22,10 +22,10 @@ namespace JobMatch.UnitTests
             Assert.IsNotNull(candidates);
         }
         [Test]
-        public void CandidateSearchService_Should_Count_Duplicate_Skills()
+        public void CandidateJobScoreCalculatorService_Should_Count_Duplicate_Skills()
         {
-            var candidateSearchService = new CandidateSearchServices<AddValueForRepeatedSkills, AddValueForRepeatedSkills>(CandidateBusinessServices, JobBusinessService);
-            var candidateSkillWeights = candidateSearchService.CandidateSkillWeights.ToList();
+            //var candidateSearchService = new CandidateSearchServices<AddValueForRepeatedSkills, AddValueForRepeatedSkills>(CandidateBusinessServices, JobBusinessService, CandidateJobScoreCalculatorServices);
+            var candidateSkillWeights = CandidateJobScoreCalculatorServicesCountDuplicate.CandidateSkillWeights.ToList();
             Assert.NotNull(candidateSkillWeights);
         }
         [Test]
@@ -34,9 +34,10 @@ namespace JobMatch.UnitTests
             var jobBusinessService =
                 new JobBusinessServices<IgnoreRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
             var candidateBusinessService = new CandidateBusinessServices<IgnoreRepeatedSkills>(HttpClientManagerMock.Object, ConfigurationMock.Object);
-            var candidateSearchService = new CandidateSearchServices<IgnoreRepeatedSkills, IgnoreRepeatedSkills>(
-                candidateBusinessService, jobBusinessService);
-            var candidateSkillWeights = candidateSearchService.CandidateSkillWeights.ToList();
+            var candidateJobScoreCalculatorServicesIgnoreDuplicate =
+                new CandidateJobScoreCalculatorServices<IgnoreRepeatedSkills, IgnoreRepeatedSkills>(
+                    candidateBusinessService, jobBusinessService);
+            var candidateSkillWeights = candidateJobScoreCalculatorServicesIgnoreDuplicate.CandidateSkillWeights.ToList();
             Assert.NotNull(candidateSkillWeights);
         }
     }
